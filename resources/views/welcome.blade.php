@@ -12,6 +12,7 @@
 
     <!-- Vazirmatn Persian Font -->
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.0.0/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <!-- Tailwind Config for Custom Colors and Fonts -->
     <script>
@@ -23,9 +24,9 @@
                     },
                     colors: {
                         brand: {
-                            500: '#10b981', // Green-500
-                            600: '#059669', // Green-600
-                            700: '#047857', // Green-700
+                            500: '#FF7043',
+                            600: '#F4511E',
+                            700: '#D84315',
                         }
                     }
                 }
@@ -95,27 +96,51 @@
 
 <!-- ================= MAIN CONTENT ================= -->
 <main>
-    <section class="relative min-h-[500px] overflow-hidden flex items-center justify-center pb-16">
-        <!-- Background Decoration -->
+    <section class="relative min-h-[550px] overflow-hidden flex items-center justify-center">
+        <!-- Background -->
         <div class="absolute inset-0">
             <img
                 src="{{ asset('assets/image/heros/hero.jpeg') }}"
-                alt="Hero Background"
+                alt="Aura Sneakers"
                 class="w-full h-full object-cover"
             >
-            <div class="absolute inset-0 bg-gradient-to-b from-slate-900/60 to-slate-900/80"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-900/50 to-slate-950/90"></div>
         </div>
 
         <!-- Hero Content -->
         <div class="relative z-10 max-w-3xl mx-auto px-4 text-center text-white">
-            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight drop-shadow-md">
-                آروا کتونی
-            </h1>
-            <p class="mt-4 text-lg md:text-xl text-slate-200 font-light leading-relaxed max-w-xl mx-auto">
-                تجربه‌ای متفاوت از راحتی و استایل؛ جدیدترین و باکیفیت‌ترین کتونی‌های روز را با ما قدم بزنید.
-            </p>
-        </div>
+            <span class="inline-block mb-4 text-sm md:text-base font-medium tracking-widest text-slate-300 uppercase">
+                Step Into Your Style
+            </span>
 
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight drop-shadow-lg">
+                آورا کتونی
+            </h1>
+
+            <p class="mt-5 text-lg md:text-xl text-slate-200 font-light leading-relaxed max-w-2xl mx-auto">
+                استایل خودت را پیدا کن؛
+                با جدیدترین کتونی‌های روز، راحت‌تر قدم بردار و متفاوت‌تر دیده شو.
+            </p>
+
+            <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+                <a
+                    href="#products"
+                    class="px-7 py-3 rounded-xl bg-white text-slate-900 font-semibold hover:bg-slate-100 transition"
+                >
+                    مشاهده محصولات
+                </a>
+
+                <a
+                    href="#categories"
+                    class="flex items-center justify-center gap-2 px-7 py-3 rounded-xl border border-white/30 bg-white/10 backdrop-blur-sm font-semibold hover:bg-white/20 transition"
+                >
+                تخفیفات ویژه    
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 1 0 9.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1 1 14.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+                </svg>
+                </a>
+            </div>
+        </div>
         <!-- Curved Bottom Shape -->
         <div class="absolute bottom-0 left-0 right-0 w-full overflow-hidden leading-none pointer-events-none">
             <svg class="relative block w-full h-[40px] sm:h-[60px]" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
@@ -125,65 +150,91 @@
     </section>
 
     <!-- CATEGORIES SECTION -->
-    <section class="py-16 bg-white overflow-hidden">
+    <section class="py-16 bg-slate-50/50 relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Header -->
-            <div class="flex items-end justify-between mb-10">
-                <div>
-                    <h2 class="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">دسته‌بندی‌های محبوب</h2>
-                    <div class="w-20 h-1.5 bg-brand-500 rounded-full mt-3"></div>
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="flex h-2 w-2 relative">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                    </span>
+                    <span class="text-xs font-bold tracking-wider text-brand-600 uppercase mb-1 block">دسته‌بندی‌ها</span>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">محبوب‌ترین دسته‌ها</h2>
+            </div>
+
+            <!-- Navigation Buttons -->
+            @if(!empty($categories) && count($categories) > 0)
+                <div class="flex items-center gap-2">
+                    <button class="category-prev w-10 h-10 rounded-xl bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-600 hover:bg-brand-50 hover:text-brand-600 hover:border-brand-200 transition-all cursor-pointer z-10">
+                        <svg class="w-5 h-5 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    </button>
+                    <button class="category-next w-10 h-10 rounded-xl bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-600 hover:bg-brand-50 hover:text-brand-600 hover:border-brand-200 transition-all cursor-pointer z-10">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    </button>
+                </div>
+            @endif
+        </div>
+
+        @if(!empty($categories) && count($categories) > 0)
+            <!-- Swiper Container -->
+            <div class="swiper category-swiper !py-4 !px-1">
+                <div class="swiper-wrapper">
+                    @foreach($categories as $category)
+                        <!-- Category Card (Swiper Slide) -->
+                        <div class="swiper-slide !h-auto">
+                            <a href="{{ route('shop', ['category' => $category->slug ?? $category->id]) }}"
+                               class="group relative flex flex-col items-center p-5 bg-white rounded-2xl border border-slate-100 shadow-md hover:shadow-xl hover:shadow-brand-500/10 hover:border-brand-200 hover:-translate-y-2 transition-all duration-300 cursor-pointer overflow-hidden h-full">
+
+                                <!-- Top Highlight Glow -->
+                                <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-brand-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                                <!-- Image Wrapper -->
+                                <div class="w-24 h-24 md:w-28 md:h-28 mb-4 rounded-2xl p-1.5 group-hover:bg-brand-50 transition-colors duration-300">
+                                    <div class="w-full h-full bg-white rounded-xl flex items-center justify-center overflow-hidden relative">
+                                        @if(isset($category->image) && $category->image)
+                                            <img src="{{ asset('storage/'.$category->image) }}" alt="{{ $category->name }}"
+                                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out" loading="lazy">
+                                        @else
+                                            <svg class="w-10 h-10 text-slate-300 group-hover:text-brand-500 group-hover:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6a2 2 0 012-2h2l2 2h8a2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V6z"/>
+                                            </svg>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <!-- Category Name & Count -->
+                                <div class="text-center w-full mt-auto">
+                                    <h3 class="font-bold text-slate-800 text-sm md:text-base group-hover:text-brand-600 transition-colors duration-300 truncate">
+                                        {{ $category->name }}
+                                    </h3>
+                                    @if(isset($category->products_count))
+                                        <span class="text-xs text-slate-400 mt-1 block group-hover:text-slate-500 transition-colors">
+                                            {{ $category->products_count }} کالا
+                                        </span>
+                                    @endif
+                                </div>
+                            </a>
+                        </div>
+                    @endforeach
                 </div>
             </div>
-
-            <!-- Categories Container -->
-            <div class="flex overflow-x-auto gap-4 md:gap-6 pb-8 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-
-                @forelse($categories ?? [] as $category)
-                    <!-- Category Card -->
-                    <a href="{{ route('shop', ['category' => $category->slug ?? $category->id]) }}"
-                       class="group relative flex-shrink-0 w-36 md:w-48 flex flex-col items-center p-4 md:p-5 bg-white rounded-[2rem] border border-slate-100 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_30px_-5px_rgba(0,0,0,0.08)] hover:border-brand-100 hover:-translate-y-1.5 transition-all duration-500 snap-center cursor-pointer">
-
-                        <!-- Image Wrapper with Gradient Border Effect -->
-                        <div class="w-24 h-24 md:w-32 md:h-32 mb-4 rounded-full p-1 bg-gradient-to-tr from-slate-100 to-slate-50 group-hover:from-brand-100 group-hover:to-brand-50 transition-all duration-500">
-                            <!-- Image Inner Circle -->
-                            <div class="w-full h-full bg-white rounded-full flex items-center justify-center overflow-hidden shadow-sm relative">
-                                @if(isset($category->image) && $category->image)
-                                    <img src="{{ asset('storage/'.$category->image) }}" alt="{{ $category->name }}"
-                                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out" loading="lazy">
-                                @else
-                                    <!-- Fallback SVG if no image -->
-                                    <svg class="w-10 h-10 text-slate-300 group-hover:text-brand-400 group-hover:scale-110 transition-all duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6a2 2 0 012-2h2l2 2h8a2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V6z"/>
-                                    </svg>
-                                @endif
-                            </div>
-                        </div>
-
-                        <!-- Category Name -->
-                        <h3 class="font-bold text-slate-800 text-sm md:text-base group-hover:text-brand-600 transition-colors duration-300 text-center w-full truncate">
-                            {{ $category->name }}
-                        </h3>
-                    </a>
-                @empty
-                    <!-- Empty State (When no categories exist) -->
-                    <div class="w-full py-16 flex flex-col items-center justify-center bg-slate-50/50 rounded-[2.5rem] border-2 border-dashed border-slate-200 mx-auto">
-                        <div class="w-20 h-20 mb-5 bg-white shadow-sm rounded-full flex items-center justify-center">
-                            <svg class="w-10 h-10 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
-                            </svg>
-                        </div>
-                        <p class="text-lg md:text-xl font-bold text-slate-700">دسته‌بندی موجود نمی‌باشد</p>
-                        <p class="text-sm text-slate-500 mt-2 text-center max-w-sm px-4">
-                            در حال حاضر هیچ دسته‌بندی برای نمایش در این بخش ثبت نشده است.
-                        </p>
-                    </div>
-                @endforelse
-
-            </div>
+        @else
+            <!-- Empty State -->
+            <div class="w-full py-16 flex flex-col items-center justify-center bg-white rounded-3xl border border-slate-100 shadow-sm mx-auto">
+        <div class="w-16 h-16 mb-4 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
+            </svg>
+        </div>
+        <p class="text-base font-bold text-slate-800">دسته‌بندی یافت نشد</p>
+        <p class="text-xs text-slate-400 mt-1">در حال حاضر هیچ دسته‌بندی برای نمایش وجود ندارد.</p>
+        </div>
+            @endif
         </div>
     </section>
-
-
 
     <!-- BEST SELLERS SECTION -->
     <section class="py-16 bg-slate-50 overflow-hidden">
@@ -499,6 +550,91 @@
 <!-- ================= FOOTER ================= -->
 @include('footer')
 <!-- ================= JAVASCRIPT ================= -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        
+        // راه اندازی Swiper
+        if (typeof Swiper !== 'undefined') {
+            new Swiper('.category-swiper', {
+                slidesPerView: 2,
+                spaceBetween: 16,
+                navigation: {
+                    nextEl: '.category-next',
+                    prevEl: '.category-prev',
+                },
+                breakpoints: {
+                    640: { slidesPerView: 3, spaceBetween: 20 },
+                    768: { slidesPerView: 4, spaceBetween: 20 },
+                    1024: { slidesPerView: 5, spaceBetween: 24 },
+                    1280: { slidesPerView: 6, spaceBetween: 24 },
+                }
+            });
+        }
+
+        /* --- Mobile Menu Logic --- */
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const closeBtn = document.getElementById('mobile-menu-close');
+        const overlay = document.getElementById('mobile-menu-overlay');
+        const drawer = document.getElementById('mobile-menu-drawer');
+        const body = document.body;
+
+        function openMenu() {
+            if(!overlay || !drawer) return;
+            overlay.classList.remove('hidden');
+            setTimeout(() => {
+                overlay.classList.remove('opacity-0');
+                overlay.classList.add('opacity-100');
+                drawer.classList.remove('translate-x-full');
+            }, 10);
+            body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            if(!overlay || !drawer) return;
+            drawer.classList.add('translate-x-full');
+            overlay.classList.remove('opacity-100');
+            overlay.classList.add('opacity-0');
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 300);
+            body.style.overflow = '';
+        }
+
+        if(mobileBtn && closeBtn && overlay) {
+            mobileBtn.addEventListener('click', openMenu);
+            closeBtn.addEventListener('click', closeMenu);
+            overlay.addEventListener('click', closeMenu);
+
+            document.addEventListener('keydown', (e) => {
+                if(e.key === 'Escape') closeMenu();
+            });
+        }
+        
+        /* --- Slider Logic Function --- */
+        function initSlider(containerId, prevBtnId, nextBtnId) {
+            const container = document.getElementById(containerId);
+            const prevBtn = document.getElementById(prevBtnId);
+            const nextBtn = document.getElementById(nextBtnId);
+
+            if(!container || !prevBtn || !nextBtn) return;
+
+            const scrollAmount = 300;
+            const isRTL = document.documentElement.dir === 'rtl';
+
+            nextBtn.addEventListener('click', () => {
+                container.scrollBy({ left: isRTL ? -scrollAmount : scrollAmount, behavior: 'smooth' });
+            });
+
+            prevBtn.addEventListener('click', () => {
+                container.scrollBy({ left: isRTL ? scrollAmount : -scrollAmount, behavior: 'smooth' });
+            });
+        }
+
+        initSlider('bestseller-slider', 'btn-prev-bestseller', 'btn-next-bestseller');
+        initSlider('new-slider', 'btn-prev-new', 'btn-next-new');
+    });
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
 
@@ -510,8 +646,8 @@
         const body = document.body;
 
         function openMenu() {
+            if(!overlay || !drawer) return;
             overlay.classList.remove('hidden');
-            // slight delay for transition
             setTimeout(() => {
                 overlay.classList.remove('opacity-0');
                 overlay.classList.add('opacity-100');
@@ -521,12 +657,13 @@
         }
 
         function closeMenu() {
+            if(!overlay || !drawer) return;
             drawer.classList.add('translate-x-full');
             overlay.classList.remove('opacity-100');
             overlay.classList.add('opacity-0');
             setTimeout(() => {
                 overlay.classList.add('hidden');
-            }, 300); // match duration
+            }, 300);
             body.style.overflow = '';
         }
 
@@ -535,13 +672,12 @@
             closeBtn.addEventListener('click', closeMenu);
             overlay.addEventListener('click', closeMenu);
 
-            // Escape key
             document.addEventListener('keydown', (e) => {
                 if(e.key === 'Escape') closeMenu();
             });
         }
-
-        /* --- Slider Logic Function --- */
+        
+        /* --- Custom Sliders (Bestseller & New Products) --- */
         function initSlider(containerId, prevBtnId, nextBtnId) {
             const container = document.getElementById(containerId);
             const prevBtn = document.getElementById(prevBtnId);
@@ -549,32 +685,22 @@
 
             if(!container || !prevBtn || !nextBtn) return;
 
-            // Amount to scroll (roughly one card width + gap)
             const scrollAmount = 300;
-
-            // Note: In RTL, scrolling right (next) means subtracting scrollLeft, but
-            // native behavior in modern browsers with dir="rtl" handles this via negative scrollLeft or logical translation.
-            // We will use standard scrollBy which modern browsers map correctly based on direction,
-            // or we explicitly set the sign based on direction.
-
             const isRTL = document.documentElement.dir === 'rtl';
 
             nextBtn.addEventListener('click', () => {
-                // For RTL, "Next" visually means scrolling to the left
                 container.scrollBy({ left: isRTL ? -scrollAmount : scrollAmount, behavior: 'smooth' });
             });
 
             prevBtn.addEventListener('click', () => {
-                // For RTL, "Prev" visually means scrolling to the right
                 container.scrollBy({ left: isRTL ? scrollAmount : -scrollAmount, behavior: 'smooth' });
             });
         }
 
-        // Initialize Sliders
         initSlider('bestseller-slider', 'btn-prev-bestseller', 'btn-next-bestseller');
         initSlider('new-slider', 'btn-prev-new', 'btn-next-new');
 
-        /* --- Optional: Make Categories Draggable/Scrollable with Mouse --- */
+        /* --- Drag with Mouse for Horizontal Scroll Areas --- */
         const sliders = document.querySelectorAll('.hide-scroll');
         let isDown = false;
         let startX;
@@ -599,12 +725,13 @@
                 if (!isDown) return;
                 e.preventDefault();
                 const x = e.pageX - slider.offsetLeft;
-                const walk = (x - startX) * 2; // Scroll fast
+                const walk = (x - startX) * 2;
                 slider.scrollLeft = scrollLeft - walk;
             });
         });
 
     });
 </script>
+
 </body>
 </html>
