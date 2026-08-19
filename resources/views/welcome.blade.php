@@ -168,10 +168,10 @@
             <!-- Navigation Buttons -->
             @if(!empty($categories) && count($categories) > 0)
                 <div class="flex items-center gap-2">
-                    <button class="category-prev w-10 h-10 rounded-xl bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-600 hover:bg-brand-50 hover:text-brand-600 hover:border-brand-200 transition-all cursor-pointer z-10">
+                    <button class="category-prev w-10 h-10 rounded-full bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-600 hover:bg-brand-600 hover:text-white hover:border-brand-600 transition-all cursor-pointer z-10">
                         <svg class="w-5 h-5 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                     </button>
-                    <button class="category-next w-10 h-10 rounded-xl bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-600 hover:bg-brand-50 hover:text-brand-600 hover:border-brand-200 transition-all cursor-pointer z-10">
+                    <button class="category-next w-10 h-10 rounded-full bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-600 hover:bg-brand-600 hover:text-white hover:border-brand-600 transition-all cursor-pointer z-10">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                     </button>
                 </div>
@@ -186,7 +186,7 @@
                         <!-- Category Card (Swiper Slide) -->
                         <div class="swiper-slide !h-auto">
                             <a href="{{ route('shop', ['category' => $category->slug ?? $category->id]) }}"
-                               class="group relative flex flex-col items-center p-5 bg-white rounded-2xl border border-slate-100 shadow-md hover:shadow-xl hover:shadow-brand-500/10 hover:border-brand-200 hover:-translate-y-2 transition-all duration-300 cursor-pointer overflow-hidden h-full">
+                            class="group relative flex flex-col items-center p-5 bg-white rounded-2xl border border-slate-100 shadow-md hover:shadow-xl hover:shadow-brand-500/10 hover:border-brand-200 hover:-translate-y-2 transition-all duration-300 cursor-pointer overflow-hidden h-full">
 
                                 <!-- Top Highlight Glow -->
                                 <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-brand-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
