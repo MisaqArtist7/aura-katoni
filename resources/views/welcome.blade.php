@@ -95,51 +95,32 @@
 
 <!-- ================= MAIN CONTENT ================= -->
 <main>
-
-    <!-- HERO SECTION -->
-    <section class="relative bg-slate-900 overflow-hidden">
+    <section class="relative min-h-[500px] overflow-hidden flex items-center justify-center pb-16">
         <!-- Background Decoration -->
-        <div class="absolute inset-0 z-0">
-            <div class="absolute top-0 right-0 w-1/2 h-full bg-brand-600/10 rounded-l-full blur-3xl transform translate-x-1/3"></div>
-            <div class="absolute bottom-0 left-0 w-1/3 h-1/2 bg-blue-500/10 rounded-tr-full blur-3xl transform -translate-x-1/4"></div>
+        <div class="absolute inset-0">
+            <img
+                src="{{ asset('assets/image/heros/hero.jpeg') }}"
+                alt="Hero Background"
+                class="w-full h-full object-cover"
+            >
+            <div class="absolute inset-0 bg-gradient-to-b from-slate-900/60 to-slate-900/80"></div>
         </div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="flex flex-col lg:flex-row items-center py-16 lg:py-24 gap-12">
-                <!-- Text Content -->
-                <div class="w-full lg:w-1/2 text-center lg:text-right space-y-8">
-                    <span class="inline-block py-1 px-3 rounded-full bg-brand-500/20 text-brand-400 text-sm font-bold border border-brand-500/30">کالکشن جدید ۲۰۲۶</span>
-                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight">
-                        کفش مناسب، <br>
-                        <span class="text-transparent bg-clip-text bg-gradient-to-l from-brand-400 to-green-600">استایل متفاوت.</span>
-                    </h1>
-                    <p class="text-slate-300 text-lg md:text-xl max-w-lg mx-auto lg:mx-0">
-                        جدیدترین کتونی‌های اورجینال از برترین برندهای جهان را کشف کنید. راحتی و زیبایی، قدم به قدم همراه شماست.
-                    </p>
-                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
-                        <a href="{{ route('shop') }}" class="w-full sm:w-auto px-8 py-4 rounded-full bg-brand-600 text-white font-bold text-lg hover:bg-brand-500 transition shadow-lg shadow-brand-500/30 flex items-center justify-center gap-2">
-                            مشاهده محصولات
-                            <svg class="w-5 h-5 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                        </a>
-                        <a href="#special-offers" class="w-full sm:w-auto px-8 py-4 rounded-full bg-white/10 text-white font-bold text-lg hover:bg-white/20 backdrop-blur-sm transition flex items-center justify-center">
-                            تخفیف‌های امروز
-                        </a>
-                    </div>
-                </div>
+        <!-- Hero Content -->
+        <div class="relative z-10 max-w-3xl mx-auto px-4 text-center text-white">
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight drop-shadow-md">
+                آروا کتونی
+            </h1>
+            <p class="mt-4 text-lg md:text-xl text-slate-200 font-light leading-relaxed max-w-xl mx-auto">
+                تجربه‌ای متفاوت از راحتی و استایل؛ جدیدترین و باکیفیت‌ترین کتونی‌های روز را با ما قدم بزنید.
+            </p>
+        </div>
 
-                <!-- Hero Image -->
-                <div class="w-full lg:w-1/2 relative">
-                    <div class="relative w-full aspect-square md:aspect-[4/3] flex items-center justify-center">
-                        <!-- Floating Badge -->
-                        <div class="absolute top-10 right-10 bg-white/90 backdrop-blur rounded-2xl p-4 shadow-xl z-20 animate-bounce" style="animation-duration: 3s;">
-                            <div class="text-slate-900 font-bold text-sm">Air Max Pulse</div>
-                            <div class="text-brand-600 font-black">جدید</div>
-                        </div>
-                        <!-- Mock Image - In production use asset('...') -->
-                        <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="New Sneaker Collection" class="relative z-10 w-4/5 h-auto object-cover transform -rotate-12 hover:rotate-0 hover:scale-105 transition-all duration-700 drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
-                    </div>
-                </div>
-            </div>
+        <!-- Curved Bottom Shape -->
+        <div class="absolute bottom-0 left-0 right-0 w-full overflow-hidden leading-none pointer-events-none">
+            <svg class="relative block w-full h-[40px] sm:h-[60px]" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,0 Q600,100 1200,0 L1200,120 L0,120 Z" class="fill-white"></path>
+            </svg>
         </div>
     </section>
 
@@ -234,7 +215,7 @@
 
                             <a href="{{ route('shop', ['product' => $bestProduct->slug ?? $bestProduct->id]) }}" class="block relative aspect-square bg-slate-50 overflow-hidden p-6 flex items-center justify-center">
                                 @if(!empty($bestProduct->images) && count($bestProduct->images) > 0)
-                                    <img src="{{ asset($bestProduct->images[0]) }}" alt="{{ $bestProduct->name }}" class="w-full h-full object-contain img-zoom drop-shadow-lg" loading="lazy">
+                                    <img src="{{ asset('storage/'.$bestProduct->images[0]) }}" alt="{{ $bestProduct->name }}" class="w-full h-full object-contain img-zoom drop-shadow-lg" loading="lazy">
                                 @else
                                     <!-- Placeholder fallback -->
                                     <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Sneaker placeholder" class="w-full h-full object-contain img-zoom drop-shadow-lg" loading="lazy">
