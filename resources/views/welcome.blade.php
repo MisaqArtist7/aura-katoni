@@ -237,167 +237,272 @@
     </section>
 
     <!-- BEST SELLERS SECTION -->
-    <section class="py-16 bg-slate-50 overflow-hidden">
+    <section class="py-16 bg-slate-50 relative overflow-hidden dir-rtl">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between mb-10">
+            
+            <!-- Header -->
+            <div class="flex items-center justify-between mb-8">
                 <div>
-                    <h2 class="text-2xl md:text-3xl font-black text-slate-900">پرفروش‌ترین‌ها</h2>
-                    <div class="w-16 h-1.5 bg-brand-500 rounded-full mt-2"></div>
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="flex h-2 w-2 relative">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                        </span>
+                        <span class="text-xs font-bold tracking-wider text-brand-600 uppercase block">پیشنهاد ویژه</span>
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">پرفروش‌ترین محصولات</h2>
                 </div>
-                <div class="flex gap-2">
-                    <button type="button" id="btn-prev-bestseller" aria-label="Previous" class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-slate-600 hover:bg-brand-50 hover:text-brand-600 hover:border-brand-300 transition shadow-sm">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+
+                <!-- Navigation Buttons -->
+                <div class="flex items-center gap-2">
+                    <button type="button" class="bestseller-prev w-10 h-10 rounded-full bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-600 hover:bg-brand-600 hover:text-white hover:border-brand-600 transition-all cursor-pointer z-10" aria-label="قبلی">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
                     </button>
-                    <button type="button" id="btn-next-bestseller" aria-label="Next" class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-slate-600 hover:bg-brand-50 hover:text-brand-600 hover:border-brand-300 transition shadow-sm">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    <button type="button" class="bestseller-next w-10 h-10 rounded-full bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-600 hover:bg-brand-600 hover:text-white hover:border-brand-600 transition-all cursor-pointer z-10" aria-label="بعدی">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
                     </button>
                 </div>
             </div>
 
-            <div class="flex overflow-x-auto hide-scroll pb-8 gap-6 scroll-smooth snap-x snap-mandatory" id="bestseller-slider">
-                @if(isset($bestSellingProducts) && count($bestSellingProducts) > 0)
-                    @foreach($bestSellingProducts as $bestProduct)
-                        <div class="group flex-shrink-0 w-64 md:w-72 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative snap-center flex flex-col overflow-hidden">
+            <!-- Swiper Container -->
+            <div class="swiper bestseller-swiper !py-4 !px-1">
+                <div class="swiper-wrapper">
+                    @if(isset($bestSellingProducts) && count($bestSellingProducts) > 0)
+                        @foreach($bestSellingProducts as $bestProduct)
+                            <!-- Product Card (Swiper Slide) -->
+                            <div class="swiper-slide !h-auto">
+                                <div class="group relative flex flex-col bg-white rounded-2xl border border-slate-100 shadow-md hover:shadow-xl hover:shadow-brand-500/10 hover:border-brand-200 hover:-translate-y-2 transition-all duration-300 cursor-pointer overflow-hidden h-full">
 
-                            <!-- Wishlist Button -->
-                            <button class="absolute top-4 right-4 z-10 w-8 h-8 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 transition shadow-sm">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
-                            </button>
+                                    <!-- Top Highlight Glow -->
+                                    <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-brand-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20"></div>
 
-                            <a href="{{ route('shop', ['product' => $bestProduct->slug ?? $bestProduct->id]) }}" class="block relative aspect-square bg-slate-50 overflow-hidden p-6 flex items-center justify-center">
-                                @if(!empty($bestProduct->images) && count($bestProduct->images) > 0)
-                                    <img src="{{ asset('storage/'.$bestProduct->images[0]) }}" alt="{{ $bestProduct->name }}" class="w-full h-full object-contain img-zoom drop-shadow-lg" loading="lazy">
-                                @else
-                                    <!-- Placeholder fallback -->
-                                    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Sneaker placeholder" class="w-full h-full object-contain img-zoom drop-shadow-lg" loading="lazy">
-                                @endif
-                            </a>
+                                    <!-- Wishlist Button & Badges -->
+                                    <div class="absolute top-3 inset-x-3 z-10 flex items-center justify-between pointer-events-none">
+                                        <span class="bg-amber-500/10 text-amber-600 text-[10px] font-extrabold px-2.5 py-1 rounded-lg backdrop-blur-md border border-amber-500/20">
+                                            پرفروش
+                                        </span>
+                                        <button type="button" class="pointer-events-auto w-8 h-8 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 transition shadow-sm" aria-label="افزودن به علاقمندی‌ها">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
 
-                            <div class="p-5 flex-1 flex flex-col justify-between">
-                                <div>
-                                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">{{ $bestProduct->category->name ?? 'کفش ورزشی' }}</span>
-                                    <a href="{{ route('shop', ['product' => $bestProduct->slug ?? $bestProduct->id]) }}" class="block font-bold text-slate-900 text-lg hover:text-brand-600 transition line-clamp-2 mb-2">
-                                        {{ $bestProduct->name }}
+                                    <!-- Image Wrapper -->
+                                    <a href="{{ route('shop', ['product' => $bestProduct->slug ?? $bestProduct->id]) }}" class="relative aspect-square overflow-hidden p-6 flex items-center justify-center">
+                                        @if(!empty($bestProduct->images) && count($bestProduct->images) > 0)
+                                            <img src="{{ asset('storage/'.$bestProduct->images[0]) }}" alt="{{ $bestProduct->name }}" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500 ease-out" loading="lazy">
+                                        @else
+                                            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="محصول" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500 ease-out drop-shadow-md" loading="lazy">
+                                        @endif
                                     </a>
-                                </div>
-                                <div class="flex items-center justify-between mt-4">
-                                    <div class="flex flex-col">
-                                        <span class="font-black text-slate-900 text-xl">{{ number_format($bestProduct->price ?? 0) }} <span class="text-xs font-normal text-gray-500">تومان</span></span>
+
+                                    <!-- Content Wrapper -->
+                                    <div class="p-5 flex-1 flex flex-col justify-between">
+                                        <div>
+                                            <span class="text-xs font-bold text-slate-400 block mb-1">
+                                                {{ $bestProduct->category->name ?? 'کفش ورزشی' }}
+                                            </span>
+                                            <a href="{{ route('shop', ['product' => $bestProduct->slug ?? $bestProduct->id]) }}" class="block font-bold text-slate-800 text-sm md:text-base group-hover:text-brand-600 transition-colors duration-300 line-clamp-2 mb-2">
+                                                {{ $bestProduct->name }}
+                                            </a>
+                                        </div>
+
+                                        <!-- Price & Cart Button -->
+                                        <div class="flex items-center justify-between mt-4 pt-3 border-t border-slate-50">
+                                            <div class="flex flex-col">
+                                                @if(isset($bestProduct->old_price) && $bestProduct->old_price > $bestProduct->price)
+                                                    <span class="text-xs text-slate-400 line-through">
+                                                        {{ number_format($bestProduct->old_price) }}
+                                                    </span>
+                                                @endif
+                                                <span class="font-extrabold text-slate-900 text-base md:text-lg">
+                                                    {{ number_format($bestProduct->price ?? 0) }} <span class="text-xs font-normal text-slate-400">تومان</span>
+                                                </span>
+                                            </div>
+                                            <button type="button" class="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center hover:bg-brand-600 transition-all duration-300 shadow-md hover:shadow-brand-500/30 group-hover:scale-105" aria-label="افزودن به سبد خرید">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                                </svg>
+                                            </button>
+                                        </div>
                                     </div>
-                                    <button class="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center hover:bg-brand-600 transition shadow-md hover:shadow-brand-500/30" aria-label="Add to cart">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                                    </button>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
-                @else
-                    <!-- STATIC FALLBACK IF NO DATA -->
-                    @for($i=1; $i<=5; $i++)
-                        <div class="group flex-shrink-0 w-64 md:w-72 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative snap-center flex flex-col overflow-hidden">
-                            <button class="absolute top-4 right-4 z-10 w-8 h-8 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 transition shadow-sm"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg></button>
-                            <a href="#" class="block relative aspect-square bg-slate-50 overflow-hidden p-6 flex items-center justify-center">
-                                <img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Nike Shoe" class="w-full h-full object-contain img-zoom drop-shadow-lg">
-                            </a>
-                            <div class="p-5 flex-1 flex flex-col justify-between">
-                                <div>
-                                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">نایک</span>
-                                    <a href="#" class="block font-bold text-slate-900 text-lg hover:text-brand-600 transition line-clamp-2 mb-2">نایک ایر جردن ۱ مدل رترو</a>
-                                </div>
-                                <div class="flex items-center justify-between mt-4">
-                                    <div class="flex flex-col">
-                                        <span class="font-black text-slate-900 text-xl">۴,۵۰۰,۰۰۰ <span class="text-xs font-normal text-gray-500">تومان</span></span>
+                        @endforeach
+                    @else
+                        <!-- STATIC FALLBACK SLIDES -->
+                        @for($i=1; $i<=5; $i++)
+                            <div class="swiper-slide !h-auto">
+                                <div class="group relative flex flex-col bg-white rounded-2xl border border-slate-100 shadow-md hover:shadow-xl hover:shadow-brand-500/10 hover:border-brand-200 hover:-translate-y-2 transition-all duration-300 cursor-pointer overflow-hidden h-full">
+                                    <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-brand-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20"></div>
+                                    
+                                    <div class="absolute top-3 inset-x-3 z-10 flex items-center justify-between pointer-events-none">
+                                        <span class="bg-amber-500/10 text-amber-600 text-[10px] font-extrabold px-2.5 py-1 rounded-lg backdrop-blur-md border border-amber-500/20">
+                                            پرفروش
+                                        </span>
+                                        <button type="button" class="pointer-events-auto w-8 h-8 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 transition shadow-sm" aria-label="افزودن به علاقمندی‌ها">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                                        </button>
                                     </div>
-                                    <button class="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center hover:bg-brand-600 transition shadow-md hover:shadow-brand-500/30" aria-label="Add to cart"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg></button>
+
+                                    <a href="#" class="block relative aspect-square bg-slate-50 overflow-hidden p-6 flex items-center justify-center">
+                                        <img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="نایک ایر جردن" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500 ease-out drop-shadow-md">
+                                    </a>
+
+                                    <div class="p-5 flex-1 flex flex-col justify-between">
+                                        <div>
+                                            <span class="text-xs font-bold text-slate-400 block mb-1">نایک</span>
+                                            <a href="#" class="block font-bold text-slate-800 text-sm md:text-base group-hover:text-brand-600 transition-colors duration-300 line-clamp-2 mb-2">نایک ایر جردن ۱ مدل رترو</a>
+                                        </div>
+                                        <div class="flex items-center justify-between mt-4 pt-3 border-t border-slate-50">
+                                            <div class="flex flex-col">
+                                                <span class="font-extrabold text-slate-900 text-base md:text-lg">۴,۵۰۰,۰۰۰ <span class="text-xs font-normal text-slate-400">تومان</span></span>
+                                            </div>
+                                            <button type="button" class="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center hover:bg-brand-600 transition-all duration-300 shadow-md hover:shadow-brand-500/30 group-hover:scale-105" aria-label="افزودن به سبد خرید">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    @endfor
-                @endif
+                        @endfor
+                    @endif
+                </div>
             </div>
         </div>
     </section>
 
     <!-- SPECIAL OFFERS SECTION -->
-    <section id="special-offers" class="py-20 bg-slate-950 relative overflow-hidden">
-        <!-- Decorative Elements -->
-        <div class="absolute top-0 right-0 w-64 h-64 bg-brand-500/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
-        <div class="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl transform -translate-x-1/2 translate-y-1/2"></div>
-
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center max-w-2xl mx-auto mb-16">
-                    <span class="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-red-500/10 text-red-500 font-bold text-sm mb-4 border border-red-500/20">
-                        <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd"></path></svg>
-                        پیشنهادات شگفت‌انگیز
-                    </span>
-                <h2 class="text-3xl md:text-4xl font-black text-white">تخفیف‌های ویژه این هفته</h2>
-                <p class="text-slate-400 mt-4 text-lg">بهترین محصولات با تخفیف‌های باورنکردنی. فرصت را از دست ندهید.</p>
+    <section id="special-offers" class="py-16 bg-slate-50 relative overflow-hidden dir-rtl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Header -->
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="flex h-2 w-2 relative">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                        </span>
+                        <span class="text-xs font-bold tracking-wider text-brand-600 uppercase block">پیشنهاد ویژه</span>
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">تخفیف‌های شگفت‌انگیز</h2>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Grid Container (4 Columns) -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 @if(isset($discountsProduct) && count($discountsProduct) > 0)
                     @foreach($discountsProduct as $product)
                         @php
-                            // Preserve requested logic
                             $bestVariant = isset($product->variants) ? $product->variants->whereNotNull('discount_price')->sortBy('discount_price')->first() : null;
                             $originalPrice = $bestVariant ? $bestVariant->price : ($product->price ?? 0);
                             $discountPrice = $bestVariant ? $bestVariant->discount_price : ($product->discount_price ?? 0);
 
-                            // Calculate percentage
                             $discountPercent = 0;
                             if($originalPrice > 0 && $discountPrice > 0 && $originalPrice > $discountPrice) {
                                 $discountPercent = round((($originalPrice - $discountPrice) / $originalPrice) * 100);
                             }
                         @endphp
 
-                        <div class="group bg-white/5 backdrop-blur-md rounded-3xl border border-white/10 p-4 hover:bg-white/10 transition-all duration-300 relative flex flex-col">
-                            @if($discountPercent > 0)
-                                <div class="absolute top-6 right-6 z-10 bg-brand-500 text-white font-black text-sm px-3 py-1 rounded-full shadow-lg shadow-brand-500/30">
-                                    {{ $discountPercent }}٪ تخفیف
-                                </div>
-                            @endif
+                        <!-- Product Card -->
+                        <div class="group relative flex flex-col bg-white rounded-2xl border border-slate-100 shadow-md hover:shadow-xl hover:shadow-brand-500/10 hover:border-brand-200 hover:-translate-y-2 transition-all duration-300 cursor-pointer overflow-hidden h-full">
 
-                            <div class="relative aspect-square rounded-2xl overflow-hidden bg-white/5 p-6 mb-4 flex items-center justify-center">
-                                <img src="{{ asset($product->image ?? 'images/default-sneaker.png') }}" alt="{{ $product->name }}" class="w-full h-full object-contain img-zoom drop-shadow-2xl">
+                            <!-- Top Highlight Glow -->
+                            <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-brand-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20"></div>
+
+                            <!-- Wishlist Button & Discount Badge -->
+                            <div class="absolute top-3 inset-x-3 z-10 flex items-center justify-between pointer-events-none">
+                                @if($discountPercent > 0)
+                                    <span class="bg-red-500 text-white text-[11px] font-extrabold px-2.5 py-1 rounded-lg shadow-sm">
+                                        {{ $discountPercent }}٪ تخفیف
+                                    </span>
+                                @else
+                                    <div></div>
+                                @endif
+                                <button type="button" class="pointer-events-auto w-8 h-8 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 transition shadow-sm" aria-label="افزودن به علاقمندی‌ها">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                    </svg>
+                                </button>
                             </div>
 
-                            <div class="flex-1 flex flex-col justify-between px-2 pb-2">
-                                <a href="{{ route('shop', ['product' => $product->slug ?? $product->id]) }}" class="font-bold text-white text-xl hover:text-brand-400 transition line-clamp-2 mb-4">
-                                    {{ $product->name }}
-                                </a>
+                            <!-- Image Wrapper -->
+                            <a href="{{ route('shop', ['product' => $product->slug ?? $product->id]) }}" class="relative aspect-square overflow-hidden p-6 flex items-center justify-center bg-slate-50">
+                                <img src="{{ asset($product->image ?? 'images/default-sneaker.png') }}" alt="{{ $product->name }}" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500 ease-out drop-shadow-md" loading="lazy">
+                            </a>
 
-                                <div class="flex items-center justify-between">
-                                    <div>
+                            <!-- Content Wrapper -->
+                            <div class="p-5 flex-1 flex flex-col justify-between">
+                                <div>
+                                    <span class="text-xs font-bold text-slate-400 block mb-1">
+                                        {{ $product->category->name ?? 'کفش ورزشی' }}
+                                    </span>
+                                    <a href="{{ route('shop', ['product' => $product->slug ?? $product->id]) }}" class="block font-bold text-slate-800 text-sm md:text-base group-hover:text-brand-600 transition-colors duration-300 line-clamp-2 mb-2">
+                                        {{ $product->name }}
+                                    </a>
+                                </div>
+
+                                <!-- Price & Cart Button -->
+                                <div class="flex items-center justify-between mt-4 pt-3 border-t border-slate-50">
+                                    <div class="flex flex-col">
                                         @if($discountPrice > 0)
-                                            <span class="block text-slate-400 line-through text-sm decoration-red-500">{{ number_format($originalPrice) }}</span>
-                                            <span class="font-black text-brand-400 text-2xl">{{ number_format($discountPrice) }} <span class="text-xs text-slate-300 font-normal">تومان</span></span>
+                                            <span class="text-xs text-slate-400 line-through decoration-red-400 mb-0.5">
+                                                {{ number_format($originalPrice) }}
+                                            </span>
+                                            <span class="font-extrabold text-slate-900 text-base md:text-lg">
+                                                {{ number_format($discountPrice) }} <span class="text-xs font-normal text-slate-400">تومان</span>
+                                            </span>
                                         @else
-                                            <span class="font-black text-white text-2xl">{{ number_format($originalPrice) }} <span class="text-xs text-slate-300 font-normal">تومان</span></span>
+                                            <span class="font-extrabold text-slate-900 text-base md:text-lg">
+                                                {{ number_format($originalPrice) }} <span class="text-xs font-normal text-slate-400">تومان</span>
+                                            </span>
                                         @endif
                                     </div>
-                                    <button aria-label="Add to cart" class="w-12 h-12 rounded-full bg-brand-600 text-white flex items-center justify-center hover:bg-brand-500 transition shadow-lg shadow-brand-500/30">
-                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                                    <button type="button" class="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center hover:bg-brand-600 transition-all duration-300 shadow-md hover:shadow-brand-500/30 group-hover:scale-105" aria-label="افزودن به سبد خرید">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                        </svg>
                                     </button>
                                 </div>
                             </div>
                         </div>
                     @endforeach
                 @else
-                    <!-- STATIC FALLBACK -->
-                    @for($i=1; $i<=3; $i++)
-                        <div class="group bg-white/5 backdrop-blur-md rounded-3xl border border-white/10 p-4 hover:bg-white/10 transition-all duration-300 relative flex flex-col">
-                            <div class="absolute top-6 right-6 z-10 bg-brand-500 text-white font-black text-sm px-3 py-1 rounded-full shadow-lg shadow-brand-500/30">۲۰٪ تخفیف</div>
-                            <div class="relative aspect-square rounded-2xl overflow-hidden bg-white/5 p-6 mb-4 flex items-center justify-center">
-                                <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Discount Shoe" class="w-full h-full object-contain img-zoom drop-shadow-2xl">
+                    <!-- STATIC FALLBACK SLIDES (4 ITEMS) -->
+                    @for($i=1; $i<=4; $i++)
+                        <div class="group relative flex flex-col bg-white rounded-2xl border border-slate-100 shadow-md hover:shadow-xl hover:shadow-brand-500/10 hover:border-brand-200 hover:-translate-y-2 transition-all duration-300 cursor-pointer overflow-hidden h-full">
+                            <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-brand-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20"></div>
+
+                            <div class="absolute top-3 inset-x-3 z-10 flex items-center justify-between pointer-events-none">
+                                <span class="bg-red-500 text-white text-[11px] font-extrabold px-2.5 py-1 rounded-lg shadow-sm">۲۰٪ تخفیف</span>
+                                <button type="button" class="pointer-events-auto w-8 h-8 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 transition shadow-sm" aria-label="افزودن به علاقمندی‌ها">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                                </button>
                             </div>
-                            <div class="flex-1 flex flex-col justify-between px-2 pb-2">
-                                <a href="#" class="font-bold text-white text-xl hover:text-brand-400 transition line-clamp-2 mb-4">کتونی رانینگ ادیداس اولترابوست</a>
-                                <div class="flex items-center justify-between">
-                                    <div>
-                                        <span class="block text-slate-400 line-through text-sm decoration-red-500">۵,۸۰۰,۰۰۰</span>
-                                        <span class="font-black text-brand-400 text-2xl">۴,۶۴۰,۰۰۰ <span class="text-xs text-slate-300 font-normal">تومان</span></span>
+
+                            <a href="#" class="block relative aspect-square bg-slate-50 overflow-hidden p-6 flex items-center justify-center">
+                                <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="کتونی تخفیف‌دار" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500 ease-out drop-shadow-md">
+                            </a>
+
+                            <div class="p-5 flex-1 flex flex-col justify-between">
+                                <div>
+                                    <span class="text-xs font-bold text-slate-400 block mb-1">آدیداس</span>
+                                    <a href="#" class="block font-bold text-slate-800 text-sm md:text-base group-hover:text-brand-600 transition-colors duration-300 line-clamp-2 mb-2">کتونی رانینگ ادیداس اولترابوست</a>
+                                </div>
+                                <div class="flex items-center justify-between mt-4 pt-3 border-t border-slate-50">
+                                    <div class="flex flex-col">
+                                        <span class="text-xs text-slate-400 line-through decoration-red-400 mb-0.5">۵,۸۰۰,۰۰۰</span>
+                                        <span class="font-extrabold text-slate-900 text-base md:text-lg">۴,۶۴۰,۰۰۰ <span class="text-xs font-normal text-slate-400">تومان</span></span>
                                     </div>
-                                    <button class="w-12 h-12 rounded-full bg-brand-600 text-white flex items-center justify-center hover:bg-brand-500 transition"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg></button>
+                                    <button type="button" class="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center hover:bg-brand-600 transition-all duration-300 shadow-md hover:shadow-brand-500/30 group-hover:scale-105" aria-label="افزودن به سبد خرید">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -407,135 +512,152 @@
         </div>
     </section>
 
-    <!-- PROMOTIONAL BANNERS -->
-    <section class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-                <!-- Banner 1 -->
-                <div class="relative rounded-3xl overflow-hidden group aspect-[16/9] md:aspect-auto md:h-80 bg-slate-900 flex items-center">
-                    <img src="https://images.unsplash.com/photo-1552346154-21d32810baa3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Men's Collection" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 group-hover:opacity-50 transition duration-700">
-                    <div class="relative z-10 p-8 md:p-12 w-full">
-                        <span class="text-brand-400 font-bold uppercase tracking-widest text-sm mb-2 block">کالکشن جدید</span>
-                        <h3 class="text-3xl md:text-4xl font-black text-white mb-6">استایل مردانه</h3>
-                        <a href="#" class="inline-flex items-center justify-center px-6 py-3 bg-white text-slate-900 font-bold rounded-full hover:bg-brand-500 hover:text-white transition">
-                            خرید کنید
-                            <svg class="w-4 h-4 mr-2 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Banner 2 -->
-                <div class="relative rounded-3xl overflow-hidden group aspect-[16/9] md:aspect-auto md:h-80 bg-slate-900 flex items-center">
-                    <img src="https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Women's Collection" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 group-hover:opacity-50 transition duration-700">
-                    <div class="relative z-10 p-8 md:p-12 w-full">
-                        <span class="text-brand-400 font-bold uppercase tracking-widest text-sm mb-2 block">فصل جدید</span>
-                        <h3 class="text-3xl md:text-4xl font-black text-white mb-6">استایل زنانه</h3>
-                        <a href="#" class="inline-flex items-center justify-center px-6 py-3 bg-white text-slate-900 font-bold rounded-full hover:bg-brand-500 hover:text-white transition">
-                            خرید کنید
-                            <svg class="w-4 h-4 mr-2 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- NEW ARRIVALS SECTION -->
-    <section id="new-arrivals" class="py-16 bg-slate-50 border-t border-gray-100">
+    <section id="new-arrivals" class="py-16 bg-slate-50 border-t border-slate-200/60 relative overflow-hidden dir-rtl">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between mb-10">
+            
+            <!-- Header -->
+            <div class="flex items-center justify-between mb-8">
                 <div>
-                    <h2 class="text-2xl md:text-3xl font-black text-slate-900">جدیدترین محصولات</h2>
-                    <div class="w-16 h-1.5 bg-brand-500 rounded-full mt-2"></div>
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="flex h-2 w-2 relative">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-slate-800"></span>
+                        </span>
+                        <span class="text-xs font-bold tracking-wider text-brand-600 uppercase block">کالکشن جدید</span>
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">جدیدترین محصولات</h2>
                 </div>
-                <div class="flex gap-2">
-                    <button type="button" id="btn-prev-new" aria-label="Previous" class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-slate-600 hover:bg-brand-50 hover:text-brand-600 hover:border-brand-300 transition shadow-sm">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+
+                <!-- Navigation Buttons -->
+                <div class="flex items-center gap-2">
+                    <button type="button" id="btn-prev-new" aria-label="قبلی" class="w-10 h-10 rounded-full bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-600 hover:bg-brand-600 hover:text-white hover:border-brand-600 transition-all cursor-pointer z-10">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
                     </button>
-                    <button type="button" id="btn-next-new" aria-label="Next" class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-slate-600 hover:bg-brand-50 hover:text-brand-600 hover:border-brand-300 transition shadow-sm">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    <button type="button" id="btn-next-new" aria-label="بعدی" class="w-10 h-10 rounded-full bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-600 hover:bg-brand-600 hover:text-white hover:border-brand-600 transition-all cursor-pointer z-10">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
                     </button>
                 </div>
             </div>
 
-            <div class="flex overflow-x-auto hide-scroll pb-8 gap-6 scroll-smooth snap-x snap-mandatory" id="new-slider">
+            <!-- Grid / Slider Container (4 Columns on Desktop) -->
+            <div class="flex lg:grid lg:grid-cols-4 overflow-x-auto hide-scroll pb-6 gap-6 scroll-smooth snap-x snap-mandatory" id="new-slider">
                 @if(isset($latestProducts) && count($latestProducts) > 0)
                     @foreach($latestProducts as $product)
                         @php
-                            // Preserve requested logic
                             $finalVariant = isset($product->variants) ? $product->variants->first() : null;
                             $activeVariants = isset($product->variants) ? $product->variants : [];
                             $displayPrice = $finalVariant ? ($finalVariant->discount_price ?? $finalVariant->price) : ($product->price ?? 0);
                         @endphp
 
-                        <div class="group flex-shrink-0 w-72 md:w-80 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative snap-center flex flex-col">
+                        <!-- Product Card -->
+                        <div class="group flex-shrink-0 w-72 lg:w-auto snap-center relative flex flex-col bg-white rounded-sm border border-slate-200 shadow-sm hover:shadow-xl hover:shadow-brand-500/10 hover:border-brand-200 hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden h-full">
 
-                            <div class="absolute top-4 left-4 z-10 bg-slate-900 text-white font-bold text-xs px-2 py-1 rounded-md">جدید</div>
+                            <!-- Top Highlight Glow -->
+                            <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-brand-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20"></div>
 
-                            <button class="absolute top-4 right-4 z-10 w-8 h-8 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 transition shadow-sm">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
-                            </button>
+                            <!-- Badge & Wishlist Button -->
+                            <div class="absolute top-3 inset-x-3 z-10 flex items-center justify-between pointer-events-none">
+                                <span class="bg-slate-900 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-lg shadow-sm">
+                                    جدید
+                                </span>
+                                <button type="button" class="pointer-events-auto w-8 h-8 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 transition shadow-sm" aria-label="افزودن به علاقمندی‌ها">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                    </svg>
+                                </button>
+                            </div>
 
-                            <a href="{{ route('shop', ['product' => $product->slug ?? $product->id]) }}" class="block relative aspect-[4/3] bg-slate-50 overflow-hidden rounded-t-3xl p-4 flex items-center justify-center">
-                                <img src="{{ asset($product->image ?? 'images/default-sneaker.png') }}" alt="{{ $product->name }}" class="w-full h-full object-contain img-zoom drop-shadow-md" loading="lazy">
+                            <!-- Image Wrapper -->
+                            <a href="{{ route('shop', ['product' => $product->slug ?? $product->id]) }}" class="relative aspect-square overflow-hidden p-6 flex items-center justify-center">
+                                <img src="{{ asset('storage/'.$bestProduct->images[0]) }}" alt="{{ $product->name }}" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500 ease-out" loading="lazy">
                             </a>
 
-                            <div class="p-6 flex-1 flex flex-col">
-                                <a href="{{ route('shop', ['product' => $product->slug ?? $product->id]) }}" class="font-bold text-slate-900 text-lg hover:text-brand-600 transition line-clamp-2 mb-3">
-                                    {{ $product->name }}
-                                </a>
+                            <!-- Content Wrapper -->
+                            <div class="p-5 flex-1 flex flex-col justify-between">
+                                <div>
+                                    <span class="text-xs font-bold text-slate-400 block mb-1">
+                                        {{ $product->category->name ?? 'کفش ورزشی' }}
+                                    </span>
+                                    <a href="{{ route('shop', ['product' => $product->slug ?? $product->id]) }}" class="block font-bold text-slate-800 text-sm md:text-base group-hover:text-brand-600 transition-colors duration-300 line-clamp-2 mb-2">
+                                        {{ $product->name }}
+                                    </a>
 
-                                <!-- Variants info (Colors/Sizes) -->
-                                <div class="mt-auto mb-4 border-t border-gray-100 pt-3">
-                                    @if(count($activeVariants) > 0)
-                                        <div class="flex items-center justify-between text-sm text-gray-500">
-                                            <div class="flex -space-x-1 space-x-reverse">
-                                                @foreach($activeVariants->take(3) as $variant)
-                                                    @if(isset($variant->color))
-                                                        <div class="w-4 h-4 rounded-full border-2 border-white shadow-sm" style="background-color: {{ $variant->color }}"></div>
-                                                    @endif
-                                                @endforeach
+                                    <!-- Variants Info -->
+                                    <div class="mt-2 mb-1">
+                                        @if(count($activeVariants) > 0)
+                                            <div class="flex items-center justify-between text-xs text-slate-400">
+                                                <div class="flex -space-x-1 space-x-reverse">
+                                                    @foreach($activeVariants->take(3) as $variant)
+                                                        @if(isset($variant->color))
+                                                            <div class="w-3.5 h-3.5 rounded-full border border-white shadow-sm" style="background-color: {{ $variant->color }}"></div>
+                                                        @endif
+                                                    @endforeach
+                                                </div>
+                                                <span>{{ count($activeVariants) }} سایز موجود</span>
                                             </div>
-                                            <span class="text-xs">{{ count($activeVariants) }} سایز موجود</span>
-                                        </div>
-                                    @else
-                                        <span class="text-xs text-gray-500">تک سایز</span>
-                                    @endif
+                                        @else
+                                            <span class="text-[11px] text-slate-400">تک سایز</span>
+                                        @endif
+                                    </div>
                                 </div>
 
-                                <div class="flex items-center justify-between">
-                                    <span class="font-black text-slate-900 text-xl">{{ number_format($displayPrice) }} <span class="text-xs font-normal text-gray-500">تومان</span></span>
-                                    <button class="flex items-center gap-1 text-sm font-bold text-brand-600 hover:text-brand-700 transition" aria-label="View Product">
-                                        مشاهده
-                                        <svg class="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                                <!-- Price & Action Button -->
+                                <div class="flex items-center justify-between mt-4 pt-3 border-t border-slate-50">
+                                    <div class="flex flex-col">
+                                        <span class="font-extrabold text-slate-900 text-base md:text-lg">
+                                            {{ number_format($displayPrice) }} <span class="text-xs font-normal text-slate-400">تومان</span>
+                                        </span>
+                                    </div>
+                                    <button type="button" class="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center hover:bg-brand-600 transition-all duration-300 shadow-md hover:shadow-brand-500/30 group-hover:scale-105" aria-label="افزودن به سبد خرید">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                        </svg>
                                     </button>
                                 </div>
                             </div>
                         </div>
                     @endforeach
                 @else
-                    <!-- STATIC FALLBACK -->
+                    <!-- STATIC FALLBACK (4 ITEMS) -->
                     @for($i=1; $i<=4; $i++)
-                        <div class="group flex-shrink-0 w-72 md:w-80 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative snap-center flex flex-col">
-                            <div class="absolute top-4 left-4 z-10 bg-slate-900 text-white font-bold text-xs px-2 py-1 rounded-md">جدید</div>
-                            <button class="absolute top-4 right-4 z-10 w-8 h-8 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 transition shadow-sm"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg></button>
-                            <a href="#" class="block relative aspect-[4/3] bg-slate-50 overflow-hidden rounded-t-3xl p-4 flex items-center justify-center">
-                                <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="New Arrival" class="w-full h-full object-contain img-zoom drop-shadow-md">
+                        <div class="group flex-shrink-0 w-72 lg:w-auto snap-center relative flex flex-col bg-white rounded-2xl border border-slate-100 shadow-md hover:shadow-xl hover:shadow-brand-500/10 hover:border-brand-200 hover:-translate-y-2 transition-all duration-300 cursor-pointer overflow-hidden h-full">
+                            <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-brand-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20"></div>
+
+                            <div class="absolute top-3 inset-x-3 z-10 flex items-center justify-between pointer-events-none">
+                                <span class="bg-slate-900 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-lg shadow-sm">جدید</span>
+                                <button type="button" class="pointer-events-auto w-8 h-8 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 transition shadow-sm" aria-label="افزودن به علاقمندی‌ها">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                                </button>
+                            </div>
+
+                            <a href="#" class="block relative aspect-square bg-slate-50 overflow-hidden p-6 flex items-center justify-center">
+                                <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="New Arrival" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500 ease-out drop-shadow-md">
                             </a>
-                            <div class="p-6 flex-1 flex flex-col">
-                                <a href="#" class="font-bold text-slate-900 text-lg hover:text-brand-600 transition line-clamp-2 mb-3">کتونی نیوبالانس ۵۵۰ اورجینال</a>
-                                <div class="mt-auto mb-4 border-t border-gray-100 pt-3">
-                                    <div class="flex items-center justify-between text-sm text-gray-500">
+
+                            <div class="p-5 flex-1 flex flex-col justify-between">
+                                <div>
+                                    <span class="text-xs font-bold text-slate-400 block mb-1">نیوبالانس</span>
+                                    <a href="#" class="block font-bold text-slate-800 text-sm md:text-base group-hover:text-brand-600 transition-colors duration-300 line-clamp-2 mb-2">کتونی نیوبالانس ۵۵۰ اورجینال</a>
+                                    <div class="mt-2 mb-1 flex items-center justify-between text-xs text-slate-400">
                                         <div class="flex -space-x-1 space-x-reverse">
-                                            <div class="w-4 h-4 rounded-full border-2 border-white shadow-sm bg-white"></div>
-                                            <div class="w-4 h-4 rounded-full border-2 border-white shadow-sm bg-blue-900"></div>
+                                            <div class="w-3.5 h-3.5 rounded-full border border-white shadow-sm bg-white"></div>
+                                            <div class="w-3.5 h-3.5 rounded-full border border-white shadow-sm bg-blue-900"></div>
                                         </div>
-                                        <span class="text-xs">۴ سایز موجود</span>
+                                        <span>۴ سایز موجود</span>
                                     </div>
                                 </div>
-                                <div class="flex items-center justify-between">
-                                    <span class="font-black text-slate-900 text-xl">۶,۲۰۰,۰۰۰ <span class="text-xs font-normal text-gray-500">تومان</span></span>
-                                    <button class="flex items-center gap-1 text-sm font-bold text-brand-600 hover:text-brand-700 transition">مشاهده <svg class="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg></button>
+                                <div class="flex items-center justify-between mt-4 pt-3 border-t border-slate-50">
+                                    <div class="flex flex-col">
+                                        <span class="font-extrabold text-slate-900 text-base md:text-lg">۶,۲۰۰,۰۰۰ <span class="text-xs font-normal text-slate-400">تومان</span></span>
+                                    </div>
+                                    <button type="button" class="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center hover:bg-brand-600 transition-all duration-300 shadow-md hover:shadow-brand-500/30 group-hover:scale-105" aria-label="افزودن به سبد خرید">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -730,6 +852,19 @@
             });
         });
 
+    });
+    new Swiper('.bestseller-swiper', {
+        slidesPerView: 1.2,
+        spaceBetween: 16,
+        navigation: {
+            nextEl: '.bestseller-next',
+            prevEl: '.bestseller-prev',
+        },
+        breakpoints: {
+            640: { slidesPerView: 2.2, spaceBetween: 20 },
+            768: { slidesPerView: 3.2, spaceBetween: 24 },
+            1024: { slidesPerView: 4, spaceBetween: 24 }
+        }
     });
 </script>
 

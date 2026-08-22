@@ -9,6 +9,25 @@
 
 {{--    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">--}}
 
+    <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        fontFamily: {
+                            sans: ['Vazirmatn', 'sans-serif'],
+                        },
+                        colors: {
+                            brand: {
+                                500: '#FF7043',
+                                600: '#F4511E',
+                                700: '#D84315',
+                            }
+                        }
+                    }
+                }
+            }
+        </script>
+
     {!! SEO::generate() !!}
 </head>
 
@@ -23,190 +42,321 @@
     <div class="flex flex-col lg:flex-row gap-6 md:gap-8 lg:items-start">
 
         <!-- Sidebar / Filters -->
-        <aside class="lg:w-1/4 w-full sticky top-24 space-y-4 shrink-0">
-            <form action="{{route('shop')}}" method="get" class="space-y-4">
+        <aside class="lg:w-1/4 w-full sticky top-24 space-y-3 shrink-0 dir-rtl">
+            <form action="{{ route('shop') }}" method="get" id="shop-filter-form" class="space-y-3">
 
                 <!-- دسته بندی -->
-                <div class="bg-white border border-gray-100 rounded-3xl p-2 hover:border-gray-200 transition-colors shadow-sm">
-                    <button class="flex justify-between items-center w-full py-3 px-4 rounded-2xl cursor-pointer category-toggle group">
-                        <span class="text-gray-700 font-medium text-sm">دسته‌بندی‌ها</span>
-                        <div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-gray-100 transition-colors">
-                            <img class="w-3.5 transition-transform opacity-60" src="./assets/image/icons/arrowDown.svg" alt="">
-                        </div>
-                    </button>
-                    <ul class="submenu hidden mt-1 space-y-1 px-2 pb-2">
-                        @foreach($categories as $category)
-                            <li>
-                                <label class="flex items-center gap-2 py-2.5 px-3 text-gray-600 text-sm hover:bg-gray-50 rounded-xl cursor-pointer transition-colors">
-                                    <input type="radio" name="category" value="{{ $category->id }}"
-                                           class="hidden peer"
-                                        {{ request('category') == $category->id ? 'checked' : '' }}>
-                                    <div class="w-4 h-4 rounded-full border-2 border-gray-300 peer-checked:border-primary-500 peer-checked:border-[5px] transition-all"></div>
-                                    <span class="peer-checked:text-primary-600 peer-checked:font-medium transition-colors">{{ $category->name }}</span>
-                                </label>
-                            </li>
-                        @endforeach
-                    </ul>
+                <div class="bg-white border border-slate-100 rounded-2xl p-1.5 shadow-sm hover:border-slate-200 transition-all duration-200">
+                    <details class="group" {{ request('category') ? 'open' : '' }}>
+                        <summary class="flex justify-between items-center w-full py-2.5 px-3 rounded-xl cursor-pointer select-none list-none">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/>
+                                    </svg>
+                                </div>
+                                <span class="text-slate-800 font-bold text-sm">دسته‌بندی‌ها</span>
+                            </div>
+                            <div class="w-7 h-7 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-open:rotate-180 transition-transform duration-300">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </div>
+                        </summary>
+                        
+                        <ul class="mt-2 space-y-1 px-1 pb-2 border-t border-slate-50 pt-2 max-h-56 overflow-y-auto custom-scrollbar">
+                            @foreach($categories as $category)
+                                <li>
+                                    <label class="flex items-center gap-2.5 py-2 px-3 text-slate-600 text-sm hover:bg-slate-50 rounded-xl cursor-pointer transition-colors group/item">
+                                        <input type="radio" name="category" value="{{ $category->id }}"
+                                            class="hidden peer"
+                                            {{ request('category') == $category->id ? 'checked' : '' }}>
+                                        <div class="w-4 h-4 rounded-full border-2 border-slate-300 peer-checked:border-brand-600 peer-checked:border-[5px] transition-all"></div>
+                                        <span class="peer-checked:text-brand-600 peer-checked:font-bold text-slate-700 group-hover/item:text-slate-900 transition-colors">{{ $category->name }}</span>
+                                    </label>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </details>
                 </div>
 
                 <!-- برندها -->
-                <div class="bg-white border border-gray-100 rounded-3xl p-2 hover:border-gray-200 transition-colors shadow-sm">
-                    <button class="flex justify-between items-center w-full py-3 px-4 rounded-2xl cursor-pointer brand-toggle group">
-                        <span class="text-gray-700 font-medium text-sm">برندها</span>
-                        <div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-gray-100 transition-colors">
-                            <img class="w-3.5 transition-transform opacity-60" src="./assets/image/icons/arrowDown.svg" alt="">
-                        </div>
-                    </button>
-                    <ul class="submenu hidden mt-1 space-y-1 px-2 pb-2">
-                        @foreach($brands as $brand)
-                            <li>
-                                <label for="brand-{{ $brand->id }}" class="flex items-center gap-x-3 py-2.5 px-3 hover:bg-gray-50 rounded-xl cursor-pointer transition-colors group">
-                                    <div class="relative flex items-center justify-center">
-                                        <input id="brand-{{ $brand->id }}" type="checkbox"
-                                               name="brands[]" value="{{ $brand->id }}"
-                                               class="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-lg checked:bg-primary-500 checked:border-primary-500 cursor-pointer transition-colors"
-                                            {{ in_array($brand->id, request()->get('brands', [])) ? 'checked' : '' }}>
-                                        <svg class="absolute w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                    </div>
-                                    <span class="text-gray-600 text-sm group-hover:text-gray-900 transition-colors">{{ $brand->name }}</span>
-                                </label>
-                            </li>
-                        @endforeach
-                    </ul>
+                <div class="bg-white border border-slate-100 rounded-2xl p-1.5 shadow-sm hover:border-slate-200 transition-all duration-200">
+                    <details class="group" {{ request('brands') ? 'open' : '' }}>
+                        <summary class="flex justify-between items-center w-full py-2.5 px-3 rounded-xl cursor-pointer select-none list-none">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                                    </svg>
+                                </div>
+                                <span class="text-slate-800 font-bold text-sm">برندها</span>
+                            </div>
+                            <div class="w-7 h-7 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-open:rotate-180 transition-transform duration-300">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </div>
+                        </summary>
+                        
+                        <ul class="mt-2 space-y-1 px-1 pb-2 border-t border-slate-50 pt-2 max-h-56 overflow-y-auto custom-scrollbar">
+                            @foreach($brands as $brand)
+                                <li>
+                                    <label for="brand-{{ $brand->id }}" class="flex items-center gap-3 py-2 px-3 hover:bg-slate-50 rounded-xl cursor-pointer transition-colors group/item">
+                                        <div class="relative flex items-center justify-center">
+                                            <input id="brand-{{ $brand->id }}" type="checkbox"
+                                                name="brands[]" value="{{ $brand->id }}"
+                                                class="peer appearance-none w-4 h-4 border-2 border-slate-300 rounded-md checked:bg-brand-600 checked:border-brand-600 cursor-pointer transition-all"
+                                                {{ in_array($brand->id, request()->get('brands', [])) ? 'checked' : '' }}>
+                                            <svg class="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                        </div>
+                                        <span class="text-slate-600 text-sm group-hover/item:text-slate-900 transition-colors">{{ $brand->name }}</span>
+                                    </label>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </details>
                 </div>
 
                 <!-- فیلتر قیمت -->
-                <div class="bg-white border border-gray-100 rounded-3xl p-2 hover:border-gray-200 transition-colors shadow-sm">
-                    <button class="flex justify-between items-center w-full py-3 px-4 rounded-2xl cursor-pointer price-toggle group">
-                        <span class="text-gray-700 font-medium text-sm">محدوده قیمت</span>
-                        <div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-gray-100 transition-colors">
-                            <img class="w-3.5 transition-transform opacity-60" src="./assets/image/icons/arrowDown.svg" alt="">
+                <div class="bg-white border border-slate-100 rounded-2xl p-1.5 shadow-sm hover:border-slate-200 transition-all duration-200">
+                    <details class="group" {{ (request('price_min') || request('price_max')) ? 'open' : '' }}>
+                        <summary class="flex justify-between items-center w-full py-2.5 px-3 rounded-xl cursor-pointer select-none list-none">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                </div>
+                                <span class="text-slate-800 font-bold text-sm">محدوده قیمت</span>
+                            </div>
+                            <div class="w-7 h-7 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-open:rotate-180 transition-transform duration-300">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </div>
+                        </summary>
+                        
+                        <div class="px-3 pb-3 border-t border-slate-50 pt-4 space-y-4">
+                            <div id="shop-price-slider" class="my-3"></div>
+                            <div class="flex items-center justify-between text-slate-700 text-xs font-bold bg-slate-50 p-2.5 rounded-xl border border-slate-100 dir-rtl">
+                                <div class="flex items-center gap-1"><span id="shop-price-slider-min">۰</span> تومان</div>
+                                <span class="text-slate-300">-</span>
+                                <div class="flex items-center gap-1"><span id="shop-price-slider-max">بی‌نهایت</span> تومان</div>
+                            </div>
+                            <input type="hidden" name="price_min" id="price_min" value="{{ request('price_min', 0) }}">
+                            <input type="hidden" name="price_max" id="price_max" value="{{ request('price_max', 20000000) }}">
                         </div>
-                    </button>
-                    <div class="submenu hidden mt-4 px-5 pb-5 space-y-6">
-                        <div id="shop-price-slider" class="mt-4"></div>
-                        <div class="flex items-center justify-between text-gray-700 text-sm font-medium bg-gray-50 p-3 rounded-xl border border-gray-100">
-                            <div class="flex items-center gap-1"><span id="shop-price-slider-min"></span></div>
-                            <span class="text-gray-300">-</span>
-                            <div class="flex items-center gap-1"><span id="shop-price-slider-max"></span></div>
-                            <input type="hidden" name="price_min" id="price_min" value="{{ request('price_min') }}">
-                            <input type="hidden" name="price_max" id="price_max" value="{{ request('price_max') }}">
-                        </div>
-                    </div>
+                    </details>
                 </div>
 
-                <!-- فقط کالاهای موجود -->
-                <label class="bg-white border border-gray-100 hover:border-gray-200 shadow-sm rounded-3xl flex items-center justify-between w-full py-4 px-5 cursor-pointer transition-colors">
-                    <span class="text-gray-700 font-medium text-sm">فقط کالاهای موجود</span>
+                <!-- فقط کالاهای موجود (با رنگ روشن و مشخص هنگام فعال‌سازی) -->
+                <label class="bg-white border border-slate-100 hover:border-slate-200 shadow-sm rounded-2xl flex items-center justify-between w-full py-3.5 px-4 cursor-pointer transition-all duration-200">
+                    <span class="text-slate-800 font-bold text-sm">فقط کالاهای موجود</span>
                     <div class="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" id="onlyAvailableDesktop" name="onlyAvailable" value="1"
-                               {{ request()->has('onlyAvailable') ? 'checked' : '' }}
-                               class="peer sr-only">
-                        <div class="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:shadow-sm peer-checked:bg-primary-500 peer-checked:after:translate-x-full"></div>
+                            {{ request()->has('onlyAvailable') ? 'checked' : '' }}
+                            class="peer sr-only">
+                        <!-- تغییر رنگ پس‌زمینه به سبز/امبر فعال و روشن‌تر شدن دکمه چرخان -->
+                        <div class="peer h-6 w-11 rounded-full bg-slate-200 transition-all duration-300
+                                    after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:shadow-md
+                                    peer-checked:bg-emerald-500 peer-checked:after:translate-x-full"></div>
                     </div>
                 </label>
+
+                <!-- Submit & Clear Buttons -->
+                <div class="pt-1 flex gap-2">
+                    <button type="submit" class="flex-1 py-3 bg-slate-900 text-white rounded-xl text-xs font-extrabold hover:bg-brand-600 transition-colors shadow-sm cursor-pointer">
+                        اعمال فیلترها
+                    </button>
+                    @if(request()->anyFilled(['category', 'brands', 'price_min', 'price_max', 'onlyAvailable']))
+                        <a href="{{ route('shop') }}" class="px-3.5 py-3 bg-red-50 text-red-500 rounded-xl text-xs font-bold hover:bg-red-100 transition-colors flex items-center justify-center">
+                            حذف
+                        </a>
+                    @endif
+                </div>
+
             </form>
         </aside>
+
+<!-- اسکریپت راه‌اندازی noUiSlider جهت فعال‌سازی اسلایدر قیمت -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const slider = document.getElementById('shop-price-slider');
+    const minInput = document.getElementById('price_min');
+    const maxInput = document.getElementById('price_max');
+    const minLabel = document.getElementById('shop-price-slider-min');
+    const maxLabel = document.getElementById('shop-price-slider-max');
+
+    if (slider && typeof noUiSlider !== 'undefined') {
+        const minVal = parseInt(minInput.value) || 0;
+        const maxVal = parseInt(maxInput.value) || 20000000;
+
+        noUiSlider.create(slider, {
+            start: [minVal, maxVal],
+            connect: true,
+            direction: 'rtl',
+            step: 50000,
+            range: {
+                'min': 0,
+                'max': 20000000
+            }
+        });
+
+        slider.noUiSlider.on('update', function (values, handle) {
+            const min = Math.round(values[0]);
+            const max = Math.round(values[1]);
+
+            minInput.value = min;
+            maxInput.value = max;
+
+            if (minLabel) minLabel.innerText = new Intl.NumberFormat('fa-IR').format(min);
+            if (maxLabel) maxLabel.innerText = new Intl.NumberFormat('fa-IR').format(max);
+        });
+    }
+});
+</script>
 
         <!-- Main Content (Products) -->
         <div class="lg:w-3/4 w-full flex-1">
 
             <!-- Sorting Bar -->
-            <div class="bg-white shadow-sm rounded-3xl p-2 md:p-3 border border-gray-100 mb-6 md:mb-8 overflow-x-auto hide-scrollbar">
-                <div class="flex items-center gap-1 md:gap-2 min-w-max">
-                    <div class="text-gray-500 text-sm font-medium px-3 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
+            <div class="bg-white shadow-sm rounded-2xl p-2 border border-slate-100 mb-6 md:mb-8 overflow-x-auto hide-scrollbar dir-rtl">
+                <div class="flex items-center gap-1.5 min-w-max">
+                    
+                    <!-- Label -->
+                    <div class="text-slate-500 text-xs font-bold px-3 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
                         </svg>
                         مرتب‌سازی:
                     </div>
 
+                    <!-- Option: Best Selling -->
                     <a href="{{ request()->fullUrlWithQuery(['sort' => 'best_selling']) }}"
-                       class="px-4 py-2 rounded-xl text-sm transition-all duration-300 {{ request('sort')=='best_selling' || !request('sort') ? 'bg-primary-50 text-primary-600 font-bold' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+                        class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-1.5 {{ request('sort')=='best_selling' || !request('sort') ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }}">
+                        @if(request('sort')=='best_selling' || !request('sort'))
+                            <span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span>
+                        @endif
                         پرفروش‌ترین
                     </a>
 
+                    <!-- Option: Newest -->
                     <a href="{{ request()->fullUrlWithQuery(['sort' => 'newest']) }}"
-                       class="px-4 py-2 rounded-xl text-sm transition-all duration-300 {{ request('sort')=='newest' ? 'bg-primary-50 text-primary-600 font-bold' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+                        class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-1.5 {{ request('sort')=='newest' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }}">
+                        @if(request('sort')=='newest')
+                            <span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span>
+                        @endif
                         جدیدترین
                     </a>
 
+                    <!-- Option: Price Low to High -->
                     <a href="{{ request()->fullUrlWithQuery(['sort' => 'price_asc']) }}"
-                       class="px-4 py-2 rounded-xl text-sm transition-all duration-300 {{ request('sort')=='price_asc' ? 'bg-primary-50 text-primary-600 font-bold' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+                        class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-1.5 {{ request('sort')=='price_asc' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }}">
+                        @if(request('sort')=='price_asc')
+                            <span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span>
+                        @endif
                         ارزان‌ترین
                     </a>
 
+                    <!-- Option: Price High to Low -->
                     <a href="{{ request()->fullUrlWithQuery(['sort' => 'price_desc']) }}"
-                       class="px-4 py-2 rounded-xl text-sm transition-all duration-300 {{ request('sort')=='price_desc' ? 'bg-primary-50 text-primary-600 font-bold' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+                        class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-1.5 {{ request('sort')=='price_desc' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }}">
+                        @if(request('sort')=='price_desc')
+                            <span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span>
+                        @endif
                         گران‌ترین
                     </a>
+
                 </div>
             </div>
 
             <!-- Products Grid -->
-            <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5">
+            <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5 dir-rtl">
                 @foreach($results as $product)
-                    <div class="bg-white rounded-3xl border border-gray-100 hover:border-gray-200 hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300 p-2 sm:p-3 group relative flex flex-col">
+                    @php
+                        $cheapestVariant = $product->variants->where('is_active', true)->sortBy('price')->first();
+                        $mainImage = $product->images[0] ?? 'defaults/no-image.png';
+                    @endphp
 
-                        @php
-                            $cheapestVariant = $product->variants->where('is_active', true)->sortBy('price')->first();
-                            $mainImage = $product->images[0] ?? 'defaults/no-image.png';
-                        @endphp
+                    <!-- Product Card -->
+                    <div class="group relative flex flex-col bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl hover:shadow-brand-500/10 hover:border-brand-200 hover:-translate-y-1 transition-all duration-300 overflow-hidden h-full">
 
-                            <!-- Image Container -->
-                        <a href="{{ route('product.details',['id'=>$product->id, 'slug'=>$product->slug]) }}" class="relative rounded-2xl overflow-hidden aspect-square bg-gray-50 mb-3 sm:mb-4 block">
-                            <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                 src="{{ asset('storage/' . $mainImage) }}"
-                                 alt="{{ $product->title ?? $product->name }}" />
+                        <!-- Top Highlight Glow -->
+                        <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-brand-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20"></div>
 
-                            <!-- Discount Badge -->
-                            @if($cheapestVariant && $cheapestVariant->discount_price)
-                                @php
-                                    $discountPercent = round((($cheapestVariant->price - $cheapestVariant->discount_price) / $cheapestVariant->price) * 100);
-                                @endphp
-                                <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-lg">
-                                        {{ $discountPercent }}٪ تخفیف
-                                    </span>
-                            @endif
+                        <!-- Discount Badge -->
+                        @if($cheapestVariant && $cheapestVariant->discount_price)
+                            @php
+                                $discountPercent = round((($cheapestVariant->price - $cheapestVariant->discount_price) / $cheapestVariant->price) * 100);
+                            @endphp
+                            <div class="absolute top-3 right-3 z-10">
+                                <span class="bg-red-500 text-white text-[10px] sm:text-xs font-extrabold px-2 py-1 rounded-lg shadow-sm">
+                                    {{ $discountPercent }}٪ تخفیف
+                                </span>
+                            </div>
+                        @endif
+
+                        <!-- Image Container -->
+                        <a href="{{ route('product.details',['id'=>$product->id, 'slug'=>$product->slug]) }}" class="relative aspect-square overflow-hidden p-4 sm:p-5 flex items-center justify-center transition-colors">
+                            <img class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500 ease-out"
+                                src="{{ asset('storage/' . $mainImage) }}"
+                                alt="{{ $product->title ?? $product->name }}" 
+                                loading="lazy"/>
                         </a>
 
-                        <!-- Content -->
-                        <div class="px-1 sm:px-2 flex-1 flex flex-col">
+                        <!-- Content Container -->
+                        <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between">
+                            
+                            <!-- Product Title -->
+                            <div>
+                                <a href="{{ route('product.details',['id'=>$product->id, 'slug'=>$product->slug]) }}" class="block font-bold text-slate-800 text-xs sm:text-sm md:text-base group-hover:text-brand-600 transition-colors duration-300 line-clamp-2 leading-relaxed mb-3">
+                                    {{ $product->name }}
+                                </a>
+                            </div>
 
-                            <a href="{{ route('product.details',['id'=>$product->id, 'slug'=>$product->slug]) }}" class="text-sm font-medium text-gray-800 hover:text-primary-500 transition-colors line-clamp-2 mb-4 min-h-[40px] leading-relaxed">
-                                {{ $product->name }}
-                            </a>
-
-                            <div class="mt-auto flex items-end justify-between gap-2">
-                                <!-- Cart Button -->
-                                <a href="{{ route('product.details',['id'=>$product->id, 'slug'=>$product->slug]) }}" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gray-50 hover:bg-primary-500 text-gray-500 hover:text-white flex items-center justify-center transition-colors duration-300 shrink-0 shadow-sm hover:shadow-primary-500/30">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                            <!-- Footer: Price & Cart Button -->
+                            <div class="flex items-center justify-between gap-2 mt-2 pt-3 border-t border-slate-50">
+                                
+                                <!-- Action Button -->
+                                <a href="{{ route('product.details',['id'=>$product->id, 'slug'=>$product->slug]) }}" 
+                                class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center hover:bg-brand-600 transition-all duration-300 shadow-sm hover:shadow-brand-500/30 group-hover:scale-105 shrink-0" 
+                                aria-label="مشاهده محصول">
+                                    <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                                     </svg>
                                 </a>
 
-                                <!-- Price -->
+                                <!-- Price Info -->
                                 <div class="flex flex-col items-end text-left">
                                     @if($cheapestVariant)
                                         @if($cheapestVariant->discount_price)
-                                            <div class="flex items-center gap-1.5 opacity-50 mb-0.5">
-                                                <span class="text-[11px] sm:text-xs line-through">{{ number_format($cheapestVariant->price) }}</span>
-                                            </div>
+                                            <span class="text-[10px] sm:text-xs text-slate-400 line-through font-medium">
+                                                {{ number_format($cheapestVariant->price) }}
+                                            </span>
                                             <div class="flex items-center gap-1">
-                                                <span class="text-base sm:text-lg font-bold text-gray-900">{{ number_format($cheapestVariant->discount_price) }}</span>
-                                                <span class="text-[10px] sm:text-xs text-gray-500 font-medium">تومان</span>
+                                                <span class="text-sm sm:text-base md:text-lg font-extrabold text-slate-900">
+                                                    {{ number_format($cheapestVariant->discount_price) }}
+                                                </span>
+                                                <span class="text-[10px] sm:text-xs font-normal text-slate-400">تومان</span>
                                             </div>
                                         @else
-                                            <div class="flex items-center gap-1 mt-4">
-                                                <span class="text-base sm:text-lg font-bold text-gray-900">{{ number_format($cheapestVariant->price) }}</span>
-                                                <span class="text-[10px] sm:text-xs text-gray-500 font-medium">تومان</span>
+                                            <div class="flex items-center gap-1">
+                                                <span class="text-sm sm:text-base md:text-lg font-extrabold text-slate-900">
+                                                    {{ number_format($cheapestVariant->price) }}
+                                                </span>
+                                                <span class="text-[10px] sm:text-xs font-normal text-slate-400">تومان</span>
                                             </div>
                                         @endif
                                     @else
-                                        <span class="text-sm font-medium text-gray-400 mt-4">ناموجود</span>
+                                        <span class="text-xs sm:text-sm font-bold text-red-500/80 bg-red-50 px-2.5 py-1 rounded-lg">
+                                            ناموجود
+                                        </span>
                                     @endif
                                 </div>
+
                             </div>
+
                         </div>
                     </div>
                 @endforeach
